@@ -2,7 +2,7 @@ import reset from "styled-reset";
 import { createGlobalStyle } from "./typed-components";
 
 // tslint:disable-next-line
-export const GlobalStyle = createGlobalStyle`
+const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Maven+Pro');
   ${reset};
   * {
@@ -24,3 +24,5 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Maven Pro', sans-serif;
   }
 `;
+
+export default GlobalStyle;
