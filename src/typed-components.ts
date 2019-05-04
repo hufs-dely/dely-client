@@ -3,10 +3,11 @@ import { ThemedStyledComponentsModule } from "styled-components";
 
 interface IThemeInterface {
   blueColor: string;
+  greyColor: string;
 }
 
 const {
-  defualt: styled,
+  default: styled,
   css,
   createGlobalStyle,
   keyframes,
