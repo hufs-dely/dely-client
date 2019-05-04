@@ -1,18 +1,19 @@
 import React from "react";
 import { graphql } from "react-apollo";
-import GlobalStyle from "../../global-styles";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 import theme from "../../theme";
 import { ThemeProvider } from "../../typed-components";
 import AppPresenter from "./AppPresenter";
 import { IS_LOGGED_IN } from "./AppQueries";
 
 const AppContainer = ({ data }) => (
-  <ThemeProvider theme={theme}>
-    <React.Fragment>
-      <GlobalStyle />
+  <React.Fragment>
+    <ThemeProvider theme={theme}>
       <AppPresenter isLoggedIn={data.auth.isLoggedIn} />
-    </React.Fragment>
-  </ThemeProvider>
+    </ThemeProvider>
+    <ToastContainer draggable={true} position={"bottom-center"} />
+  </React.Fragment>
 );
 
 export default graphql(IS_LOGGED_IN)(AppContainer);

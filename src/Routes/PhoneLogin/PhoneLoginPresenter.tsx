@@ -86,7 +86,6 @@ const PhoneLoginPresenter: React.SFC<IProps> = ({
       ))}
     </CountrySelect>
     <Form onSubmit={onSubmit}>
-      >
       <Input
         placeholder={"053 690 2129"}
         value={phoneNumber}
