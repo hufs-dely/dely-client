@@ -1,6 +1,6 @@
 import React from "react";
 import { graphql } from "react-apollo";
-import { GlobalStyle } from "../../global-styles";
+import GlobalStyle from "../../global-styles";
 import theme from "../../theme";
 import { ThemeProvider } from "../../typed-components";
 import AppPresenter from "./AppPresenter";
