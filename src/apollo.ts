@@ -26,8 +26,10 @@ const client = new ApolloClient({
           localStorage.removeItem("jwt");
           cache.writeData({
             data: {
-              __typename: "Auth",
-              isLoggedIn: false
+              auth: {
+                __typename: "Auth",
+                isLoggedIn: false
+              }
             }
           });
           return null;
@@ -43,7 +45,8 @@ const client = new ApolloClient({
     });
   },
   uri:
-    "http://ec2-13-124-254-140.ap-northeast-2.compute.amazonaws.com:4000/graphql"
+    // "http://ec2-13-124-254-140.ap-northeast-2.compute.amazonaws.com:4000/graphql"
+    "http://localhost:4000/graphql"
 });
 
 export default client;
