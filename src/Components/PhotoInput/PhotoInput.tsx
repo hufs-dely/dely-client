@@ -10,6 +10,7 @@ const Image = styled.label`
   border: 2px solid black;
   display: block;
   border-radius: 50%;
+  margin: auto;
   margin-bottom: 35px;
   display: flex;
   align-items: center;
