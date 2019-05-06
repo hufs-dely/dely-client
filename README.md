@@ -15,9 +15,11 @@ nuber client in react
 
 - [ ] Home
 - [ ] Ride
+- [ ] Chat
 - [x] Edit Account
 - [x] Settings
 - [x] Places
 - [x] Add Place
 - [ ] Find Address
 - [ ] Challenge: Ride History
+- [ ] Challenge: Email Sign In
