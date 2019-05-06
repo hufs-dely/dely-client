@@ -17,7 +17,7 @@ nuber client in react
 - [ ] Ride
 - [x] Edit Account
 - [x] Settings
-- [ ] Places
-- [ ] Add Place
+- [x] Places
+- [x] Add Place
 - [ ] Find Address
 - [ ] Challenge: Ride History
