@@ -116,10 +116,10 @@ const MenuPresenter: React.SFC<IProps> = ({
               </Text>
             </Grid>
           </Header>
-          <SLink to="/trips">Your Trips</SLink>
+          <SLink to="/trips">Your Deliveries</SLink>
           <SLink to="/settings">Settings</SLink>
           <ToggleDriving onClick={toggleDrivingFn} isDriving={user.isDriving}>
-            {user.isDriving ? "Stop driving" : "Start driving"}
+            {user.isDriving ? "Stop delying" : "Start delying"}
           </ToggleDriving>
         </Container>
       );
