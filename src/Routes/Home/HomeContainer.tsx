@@ -1,12 +1,17 @@
 import React from "react";
-import { Query } from "react-apollo";
+import { graphql, MutationFn, Query } from "react-apollo";
 import ReactDOM from "react-dom";
 import { RouteComponentProps } from "react-router-dom";
 import { toast } from "react-toastify";
 import { geoCode } from "../../mapHelpers";
 import { USER_PROFILE } from "../../sharedQueries";
-import { userProfile } from "../../types/api";
+import {
+  reportMovement,
+  reportMovementVariables,
+  userProfile
+} from "../../types/api";
 import HomePresenter from "./HomePresenter";
+import { REPORT_LOCATION } from "./HomeQueries";
 
 interface IState {
   isMenuOpen: boolean;
@@ -15,13 +20,14 @@ interface IState {
   toLng: number;
   lat: number;
   lng: number;
-  distance?: string;
+  distance: string;
   duration?: string;
-  price?: number;
+  price?: string;
 }
 
 interface IProps extends RouteComponentProps<any> {
   google: any;
+  reportLocation: MutationFn;
 }
 
 class ProfileQuery extends Query<userProfile> {}
@@ -33,9 +39,12 @@ class HomeContainer extends React.Component<IProps, IState> {
   public toMarker: google.maps.Marker;
   public directions: google.maps.DirectionsRenderer;
   public state = {
+    distance: "",
+    duration: undefined,
     isMenuOpen: false,
     lat: 0,
     lng: 0,
+    price: undefined,
     toAddress: "",
     toLat: 0,
     toLng: 0
@@ -54,7 +63,7 @@ class HomeContainer extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const { isMenuOpen, toAddress } = this.state;
+    const { isMenuOpen, toAddress, price } = this.state;
     return (
       <ProfileQuery query={USER_PROFILE}>
         {({ loading }) => (
@@ -66,6 +75,7 @@ class HomeContainer extends React.Component<IProps, IState> {
             toAddress={toAddress}
             onInputChange={this.onInputChange}
             onAddressSubmit={this.onAddressSubmit}
+            price={price}
           />
         )}
       </ProfileQuery>
@@ -127,11 +137,19 @@ class HomeContainer extends React.Component<IProps, IState> {
   };
 
   public handleGeoWatchSuccess = (position: Position) => {
+    console.log(this.props);
+    const { reportLocation } = this.props;
     const {
       coords: { latitude, longitude }
     } = position;
     this.userMarker.setPosition({ lat: latitude, lng: longitude });
     this.map.panTo({ lat: latitude, lng: longitude });
+    reportLocation({
+      variables: {
+        lat: latitude,
+        lng: longitude
+      }
+    });
   };
 
   public handleGeoWatchError = () => {
@@ -158,7 +176,6 @@ class HomeContainer extends React.Component<IProps, IState> {
     const result = await geoCode(toAddress);
     if (result !== false) {
       const { lat, lng, formatted_address: formatedAddress } = result;
-
       if (this.toMarker) {
         this.toMarker.setMap(null);
       }
@@ -212,24 +229,40 @@ class HomeContainer extends React.Component<IProps, IState> {
     result: google.maps.DirectionsResult,
     status: google.maps.DirectionsStatus
   ) => {
-    console.log(result);
     if (status === google.maps.DirectionsStatus.OK) {
       const { routes } = result;
       const {
         distance: { text: distance },
         duration: { text: duration }
       } = routes[0].legs[0];
-      this.setState({
-        distance,
-        duration
-      });
       this.directions.setDirections(result);
       this.directions.setMap(this.map);
-      console.log(distance, duration);
+      this.setState(
+        {
+          distance,
+          duration
+        },
+        this.setPrice
+      );
     } else {
       toast.error("There is no route there, you have to ");
     }
   };
+
+  public setPrice = () => {
+    const { distance } = this.state;
+    if (distance) {
+      console.log(distance);
+      this.setState({
+        price: Number(parseFloat(distance.replace(",", "")) * 3).toFixed(2)
+      });
+    }
+  };
 }
 
-export default HomeContainer;
+export default graphql<any, reportMovement, reportMovementVariables>(
+  REPORT_LOCATION,
+  {
+    name: "reportLocation"
+  }
+)(HomeContainer);
