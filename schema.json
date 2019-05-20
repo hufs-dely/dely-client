@@ -67,9 +67,13 @@
             "description": "",
             "args": [],
             "type": {
-              "kind": "OBJECT",
-              "name": "GetNearByRideResponse",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "GetNearByRideResponse",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null

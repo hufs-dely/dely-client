@@ -2,11 +2,7 @@ import React from "react";
 import { MutationFn } from "react-apollo";
 import { Link } from "react-router-dom";
 import styled from "../../typed-components";
-import {
-  toggleDriving,
-  userProfile,
-  userProfile_GetMyProfile
-} from "../../types/api";
+import { toggleDriving, userProfile } from "../../types/api";
 
 const Container = styled.div`
   height: 100%;
@@ -91,44 +87,39 @@ const MenuPresenter: React.SFC<IProps> = ({
   loading,
   toggleDrivingFn
 }) => {
-  const GetMyProfile = data;
-  if (GetMyProfile) {
-    const response: userProfile_GetMyProfile = GetMyProfile.GetMyProfile;
-
-    if (response && response.user) {
-      const user = response.user;
-
-      return (
-        <Container>
+  const GetMyProfile = data!.GetMyProfile;
+  return (
+    <Container>
+      {!loading && GetMyProfile.user && GetMyProfile.ok && (
+        <React.Fragment>
           <Header>
             <Grid>
               <Link to={"/edit-account"}>
                 <Image
                   src={
-                    user.profilePhoto ||
+                    GetMyProfile.user.profilePhoto ||
                     "https://scontent-hkg3-1.cdninstagram.com/vp/44feeff1e47aa5bc7e6ba65ab834223b/5D64ACE9/t51.2885-19/s320x320/30590335_177641379716272_435837733416468480_n.jpg?_nc_ht=scontent-hkg3-1.cdninstagram.com"
                   }
                 />
               </Link>
               <Text>
-                <Name>{user.fullName}</Name>
+                <Name>{GetMyProfile.user.fullName}</Name>
                 <Rating>4.5</Rating>
               </Text>
             </Grid>
           </Header>
           <SLink to="/trips">Your Deliveries</SLink>
           <SLink to="/settings">Settings</SLink>
-          <ToggleDriving onClick={toggleDrivingFn} isDriving={user.isDriving}>
-            {user.isDriving ? "Stop delying" : "Start delying"}
+          <ToggleDriving
+            onClick={toggleDrivingFn}
+            isDriving={GetMyProfile.user.isDriving}
+          >
+            {GetMyProfile.user.isDriving ? "Stop delying" : "Start delying"}
           </ToggleDriving>
-        </Container>
-      );
-    } else {
-      return <div>Cannot load</div>;
-    }
-  } else {
-    return <div>Cannot load</div>;
-  }
+        </React.Fragment>
+      )}
+    </Container>
+  );
 };
 
 export default MenuPresenter;

@@ -101,7 +101,6 @@ export interface updateProfileVariables {
 export interface reportMovement_ReportMovement {
   __typename: "ReportMovementResponse";
   ok: boolean;
-  error: string | null;
 }
 
 export interface reportMovement {
@@ -111,6 +110,124 @@ export interface reportMovement {
 export interface reportMovementVariables {
   lat: number;
   lng: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: getDrivers
+// ====================================================
+
+export interface getDrivers_GetNearByDrivers_drivers {
+  __typename: "User";
+  id: number;
+  lastLat: number | null;
+  lastLng: number | null;
+}
+
+export interface getDrivers_GetNearByDrivers {
+  __typename: "GetNearByDriversResponse";
+  ok: boolean;
+  drivers: (getDrivers_GetNearByDrivers_drivers | null)[] | null;
+}
+
+export interface getDrivers {
+  GetNearByDrivers: getDrivers_GetNearByDrivers;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: requestRide
+// ====================================================
+
+export interface requestRide_RequestRide_ride {
+  __typename: "Ride";
+  id: number;
+}
+
+export interface requestRide_RequestRide {
+  __typename: "RequestRideResponse";
+  ok: boolean;
+  error: string | null;
+  ride: requestRide_RequestRide_ride | null;
+}
+
+export interface requestRide {
+  RequestRide: requestRide_RequestRide;
+}
+
+export interface requestRideVariables {
+  pickUpAddress: string;
+  pickUpLat: number;
+  pickUpLng: number;
+  dropOffAddress: string;
+  dropOffLat: number;
+  dropOffLng: number;
+  price: number;
+  distance: string;
+  duration: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: getRides
+// ====================================================
+
+export interface getRides_GetNearByRide_ride_passenger {
+  __typename: "User";
+  fullName: string | null;
+  profilePhoto: string | null;
+}
+
+export interface getRides_GetNearByRide_ride {
+  __typename: "Ride";
+  id: number;
+  pickUpAddress: string;
+  dropOffAddress: string;
+  price: number;
+  distance: string;
+  passenger: getRides_GetNearByRide_ride_passenger;
+}
+
+export interface getRides_GetNearByRide {
+  __typename: "GetNearByRideResponse";
+  ok: boolean;
+  error: string | null;
+  ride: getRides_GetNearByRide_ride | null;
+}
+
+export interface getRides {
+  GetNearByRide: getRides_GetNearByRide;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: acceptRide
+// ====================================================
+
+export interface acceptRide_UpdateRideStatus {
+  __typename: "UpdateRideStatusResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface acceptRide {
+  UpdateRideStatus: acceptRide_UpdateRideStatus;
+}
+
+export interface acceptRideVariables {
+  rideId: number;
 }
 
 /* tslint:disable */

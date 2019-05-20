@@ -1,10 +1,13 @@
 import React from "react";
+import { MutationFn } from "react-apollo";
 import Helmet from "react-helmet";
 import Sidebar from "react-sidebar";
 import AddressBar from "../../Components/AddressBar";
 import Button from "../../Components/Button";
 import Menu from "../../Components/Menu";
+import RidePopUp from "../../Components/RidePopUp";
 import styled from "../../typed-components";
+import { getRides, userProfile } from "../../types/api";
 
 const Container = styled.div``;
 
@@ -54,6 +57,10 @@ interface IProps {
   onAddressSubmit: () => void;
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   price?: number;
+  data?: userProfile;
+  requestRideFn?: MutationFn;
+  nearByRide?: getRides;
+  acceptRideFn?: MutationFn;
 }
 
 const HomePresenter: React.SFC<IProps> = ({
@@ -64,47 +71,72 @@ const HomePresenter: React.SFC<IProps> = ({
   mapRef,
   onInputChange,
   onAddressSubmit,
-  price
-}) => (
-  <Container>
-    <Helmet>
-      <title>Home | dely</title>
-    </Helmet>
-    <Sidebar
-      sidebar={<Menu />}
-      open={isMenuOpen}
-      onSetOpen={toggleMenu}
-      styles={{
-        sidebar: {
-          backgroundColor: "white",
-          width: "70%",
-          zIndex: "10"
-        }
-      }}
-    >
-      {!loading && <MenuButton onClick={toggleMenu}>|||</MenuButton>}
-      <AddressBar
-        name={"toAddress"}
-        onChange={onInputChange}
-        value={toAddress}
-        onBlur={null}
-      />
-      {price && (
-        <RequestButton
-          onClick={onAddressSubmit}
-          disabled={toAddress === ""}
-          value={`Request Ride ($${price})`}
-        />
-      )}
-      <ExtendedButton
-        onClick={onAddressSubmit}
-        disabled={toAddress === ""}
-        value={price ? "Change Address" : "Pick Address"}
-      />
+  price,
+  data,
+  nearByRide,
+  requestRideFn,
+  acceptRideFn
+}) => {
+  const { GetMyProfile: { user = null } = {} } = data || {};
+  const { GetNearByRide: { ride = null } = {} } = nearByRide || {};
 
-      <Map ref={mapRef} />
-    </Sidebar>
-  </Container>
-);
+  return (
+    <Container>
+      <Helmet>
+        <title>Home | dely</title>
+      </Helmet>
+      <Sidebar
+        sidebar={<Menu />}
+        open={isMenuOpen}
+        onSetOpen={toggleMenu}
+        styles={{
+          sidebar: {
+            backgroundColor: "white",
+            width: "70%",
+            zIndex: "10"
+          }
+        }}
+      >
+        {!loading && <MenuButton onClick={toggleMenu}>|||</MenuButton>}
+
+        {user && !user.isDriving && (
+          <React.Fragment>
+            <AddressBar
+              name={"toAddress"}
+              onChange={onInputChange}
+              value={toAddress}
+              onBlur={null}
+            />
+            <ExtendedButton
+              onClick={onAddressSubmit}
+              disabled={toAddress === ""}
+              value={price ? "Change Address" : "Pick Address"}
+            />
+          </React.Fragment>
+        )}
+        {price && (
+          <RequestButton
+            onClick={requestRideFn}
+            disabled={toAddress === ""}
+            value={`Request Ride ($${price})`}
+          />
+        )}
+        {ride && (
+          <RidePopUp
+            id={ride.id}
+            pickUpAddress={ride.pickUpAddress}
+            dropOffAddress={ride.dropOffAddress}
+            price={ride.price}
+            distance={ride.distance}
+            passengerName={ride.passenger.fullName!}
+            passengerPhoto={ride.passenger.profilePhoto!}
+            acceptRideFn={acceptRideFn}
+          />
+        )}
+        <Map ref={mapRef} />
+      </Sidebar>
+    </Container>
+  );
+};
 
 export default HomePresenter;
