@@ -1,3 +1,4 @@
+import { SubscribeToMoreOptions } from "apollo-client";
 import React from "react";
 import { graphql, Mutation, MutationFn, Query } from "react-apollo";
 import ReactDOM from "react-dom";
@@ -22,7 +23,8 @@ import {
   GET_NEARBY_DRIVERS,
   GET_NEARBY_RIDE,
   REPORT_LOCATION,
-  REQUEST_RIDE
+  REQUEST_RIDE,
+  SUBSCRIBE_NEARBY_RIDES
 } from "./HomeQueries";
 
 interface IState {
@@ -103,8 +105,8 @@ class HomeContainer extends React.Component<IProps, IState> {
         {({ data, loading }) => (
           <NearByQueries
             query={GET_NEARBY_DRIVERS}
-            pollInterval={5000}
             skip={isDriving}
+            pollInterval={5000}
             onCompleted={this.handleNearByDrivers}
           >
             {() => (
@@ -125,26 +127,49 @@ class HomeContainer extends React.Component<IProps, IState> {
               >
                 {requestRideFn => (
                   <GetNearByRides query={GET_NEARBY_RIDE} skip={!isDriving}>
-                    {({ data: nearByRide }) => (
-                      <AcceptRide mutation={ACCEPT_RIDE}>
-                        {acceptRideFn => (
-                          <HomePresenter
-                            loading={loading}
-                            isMenuOpen={isMenuOpen}
-                            toggleMenu={this.toggleMenu}
-                            mapRef={this.mapRef}
-                            toAddress={toAddress}
-                            onInputChange={this.onInputChange}
-                            onAddressSubmit={this.onAddressSubmit}
-                            price={price}
-                            data={data}
-                            requestRideFn={requestRideFn}
-                            nearByRide={nearByRide}
-                            acceptRideFn={acceptRideFn}
-                          />
-                        )}
-                      </AcceptRide>
-                    )}
+                    {({ subscribeToMore, data: nearByRide }) => {
+                      const rideSubscriptionOptions: SubscribeToMoreOptions = {
+                        document: SUBSCRIBE_NEARBY_RIDES,
+                        updateQuery: (prev, { subscriptionData }) => {
+                          if (!subscriptionData.data) {
+                            return prev;
+                          }
+                          const newObject = Object.assign({}, prev, {
+                            GetNearByRide: {
+                              ...prev.GetNearByRide,
+                              ride: subscriptionData.data.NearbyRideSubscription
+                            }
+                          });
+                          return newObject;
+                        }
+                      };
+                      if (isDriving) {
+                        subscribeToMore(rideSubscriptionOptions);
+                      }
+                      return (
+                        <AcceptRide
+                          mutation={ACCEPT_RIDE}
+                          onCompleted={this.handleRideAcceptance}
+                        >
+                          {acceptRideFn => (
+                            <HomePresenter
+                              loading={loading}
+                              isMenuOpen={isMenuOpen}
+                              toggleMenu={this.toggleMenu}
+                              mapRef={this.mapRef}
+                              toAddress={toAddress}
+                              onInputChange={this.onInputChange}
+                              price={price}
+                              data={data}
+                              onAddressSubmit={this.onAddressSubmit}
+                              requestRideFn={requestRideFn}
+                              nearByRide={nearByRide}
+                              acceptRideFn={acceptRideFn}
+                            />
+                          )}
+                        </AcceptRide>
+                      );
+                    }}
                   </GetNearByRides>
                 )}
               </RequestRideMutation>
@@ -408,9 +433,9 @@ class HomeContainer extends React.Component<IProps, IState> {
               const newMarker: google.maps.Marker = new google.maps.Marker(
                 markerOptions
               );
+              this.drivers.push(newMarker);
               newMarker.set("ID", driver.id);
               newMarker.setMap(this.map);
-              this.drivers.push(newMarker);
             }
           }
         }
@@ -419,9 +444,11 @@ class HomeContainer extends React.Component<IProps, IState> {
   };
 
   public handleRideRequest = (data: requestRide) => {
+    const { history } = this.props;
     const { RequestRide } = data;
     if (RequestRide.ok) {
       toast.success("Drive requested, finding a driver");
+      history.push(`/ride/${RequestRide.ride!.id}`);
     } else {
       toast.error(RequestRide.error);
     }
@@ -438,6 +465,14 @@ class HomeContainer extends React.Component<IProps, IState> {
           isDriving
         });
       }
+    }
+  };
+
+  public handleRideAcceptance = (data: acceptRide) => {
+    const { history } = this.props;
+    const { UpdateRideStatus } = data;
+    if (UpdateRideStatus.ok) {
+      history.push(`/ride/${UpdateRideStatus.rideId}`);
     }
   };
 }

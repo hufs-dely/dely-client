@@ -45,7 +45,7 @@ const ExtendedButton = styled(Button)`
 `;
 
 const RequestButton = styled(ExtendedButton)`
-  bottom: 250px;
+  bottom: 100px;
 `;
 
 interface IProps {
@@ -98,7 +98,6 @@ const HomePresenter: React.SFC<IProps> = ({
         }}
       >
         {!loading && <MenuButton onClick={toggleMenu}>|||</MenuButton>}
-
         {user && !user.isDriving && (
           <React.Fragment>
             <AddressBar
@@ -110,7 +109,7 @@ const HomePresenter: React.SFC<IProps> = ({
             <ExtendedButton
               onClick={onAddressSubmit}
               disabled={toAddress === ""}
-              value={price ? "Change Address" : "Pick Address"}
+              value={price ? "Change address" : "Pick Address"}
             />
           </React.Fragment>
         )}
@@ -118,10 +117,10 @@ const HomePresenter: React.SFC<IProps> = ({
           <RequestButton
             onClick={requestRideFn}
             disabled={toAddress === ""}
-            value={`Request Ride ($${price})`}
+            value={`Request Dely ($${price})`}
           />
         )}
-        {ride && (
+        {ride && ride.status === "REQUESTING" && (
           <RidePopUp
             id={ride.id}
             pickUpAddress={ride.pickUpAddress}

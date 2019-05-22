@@ -72,14 +72,14 @@ const RidePopUp: React.SFC<IProps> = ({
     <Data>$ {price}</Data>
     <Title>Distance</Title>
     <Data>{distance}</Data>
-    <Title>Passenger:</Title>
+    <Title>Customer:</Title>
     <Passenger>
       <Img src={passengerPhoto} />
       <Data>{passengerName}</Data>
     </Passenger>
     <Button
       onClick={() => acceptRideFn({ variables: { rideId: id } })}
-      value={"Accept Ride"}
+      value={"Accept Dely"}
     />
   </Container>
 );
