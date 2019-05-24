@@ -57,9 +57,9 @@ interface IProps {
   onAddressSubmit: () => void;
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   price?: number;
-  data?: userProfile;
+  data?: userProfile | any;
   requestRideFn?: MutationFn;
-  nearByRide?: getRides;
+  nearByRide?: getRides | any;
   acceptRideFn?: MutationFn;
 }
 
@@ -72,14 +72,12 @@ const HomePresenter: React.SFC<IProps> = ({
   onInputChange,
   onAddressSubmit,
   price,
-  data,
-  nearByRide,
+  data: { GetMyProfile: { user = null } = {} },
+  nearByRide: { GetNearByRide: { ride = null } = {} },
   requestRideFn,
   acceptRideFn
 }) => {
-  const { GetMyProfile: { user = null } = {} } = data || {};
-  const { GetNearByRide: { ride = null } = {} } = nearByRide || {};
-
+  console.log(ride);
   return (
     <Container>
       <Helmet>
@@ -109,7 +107,7 @@ const HomePresenter: React.SFC<IProps> = ({
             <ExtendedButton
               onClick={onAddressSubmit}
               disabled={toAddress === ""}
-              value={price ? "Change address" : "Pick Address"}
+              value={price ? "Change Address" : "Pick Address"}
             />
           </React.Fragment>
         )}
