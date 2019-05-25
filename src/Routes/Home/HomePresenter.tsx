@@ -77,7 +77,6 @@ const HomePresenter: React.SFC<IProps> = ({
   requestRideFn,
   acceptRideFn
 }) => {
-  console.log(ride);
   return (
     <Container>
       <Helmet>

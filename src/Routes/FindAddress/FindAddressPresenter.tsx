@@ -4,6 +4,8 @@ import AddressBar from "../../Components/AddressBar";
 import Button from "../../Components/Button";
 import styled from "../../typed-components";
 
+const Container = styled.div``;
+
 const Map = styled.div`
   position: absolute;
   top: 0;
@@ -55,7 +57,7 @@ class FindAddressPresenter extends React.Component<IProps> {
       onPickPlace
     } = this.props;
     return (
-      <div>
+      <Container>
         <Helmet>
           <title>Find Address | Nuber</title>
         </Helmet>
@@ -68,7 +70,7 @@ class FindAddressPresenter extends React.Component<IProps> {
         <ExtendedButton value={"Pick this place"} onClick={onPickPlace} />
         <Center>📍</Center>
         <Map ref={mapRef} />
-      </div>
+      </Container>
     );
   }
 }

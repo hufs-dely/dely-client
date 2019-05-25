@@ -126,7 +126,6 @@ class FindAddressContainer extends React.Component<IProps, IState> {
         lng
       }
     });
-    console.log(address, lat, lng);
   };
 
   public reverseGeocodeAddress = async (lat: number, lng: number) => {

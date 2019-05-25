@@ -61,12 +61,8 @@ const AddPlacePresenter: React.SFC<IProps> = ({
           name={"address"}
         />
         <ExtendedLink to={"/find-address"}>Pick place from map</ExtendedLink>
-        {pickedAddress && (
-          <Button
-            onClick={null}
-            value={loading ? "Adding place" : "Add Place"}
-          />
-        )}
+
+        <Button onClick={null} value={loading ? "Adding place" : "Add Place"} />
       </Form>
     </Container>
   </React.Fragment>
