@@ -2,7 +2,7 @@ import React from "react";
 import { MutationFn } from "react-apollo";
 import { Link } from "react-router-dom";
 import styled from "../../typed-components";
-import { toggleDriving } from "../../types/api";
+import { toggleDriving, userProfile } from "../../types/api";
 
 const Container = styled.div`
   height: 100%;
@@ -77,42 +77,39 @@ const ToggleDriving = styled<IToggleProps, any>("button")`
 `;
 
 interface IProps {
-  data?: any;
+  data?: userProfile | any;
   loading: boolean;
   toggleDrivingFn: MutationFn<toggleDriving>;
 }
 
 const MenuPresenter: React.SFC<IProps> = ({
-  data,
+  data: { GetMyProfile: { user = null } = {} } = {},
   loading,
   toggleDrivingFn
 }) => (
   <Container>
-    {!loading && data.GetMyProfile.user && data.GetMyProfile.user.fullName && (
+    {!loading && user && user.fullName && (
       <React.Fragment>
         <Header>
           <Grid>
             <Link to={"/edit-account"}>
               <Image
                 src={
-                  data.GetMyProfile.user.profilePhoto ||
+                  user.profilePhoto ||
                   "https://scontent-hkg3-1.cdninstagram.com/vp/44feeff1e47aa5bc7e6ba65ab834223b/5D64ACE9/t51.2885-19/s320x320/30590335_177641379716272_435837733416468480_n.jpg?_nc_ht=scontent-hkg3-1.cdninstagram.com"
                 }
               />
             </Link>
             <Text>
-              <Name>{data.GetMyProfile.user.fullName}</Name>
+              <Name>{user.fullName}</Name>
               <Rating>4.5</Rating>
             </Text>
           </Grid>
         </Header>
         <SLink to="/trips">Your Deliveries</SLink>
         <SLink to="/settings">Settings</SLink>
-        <ToggleDriving
-          onClick={toggleDrivingFn}
-          isDriving={data.GetMyProfile.user.isDriving}
-        >
-          {data.GetMyProfile.user.isDriving ? "Stop delying" : "Start delying"}
+        <ToggleDriving onClick={toggleDrivingFn} isDriving={user.isDriving}>
+          {user.isDriving ? "Stop delying" : "Start delying"}
         </ToggleDriving>
       </React.Fragment>
     )}

@@ -77,7 +77,7 @@ const RidePresenter: React.SFC<IProps> = ({
         <Title>To</Title>
         <Data>{ride.dropOffAddress}</Data>
         <Title>Price</Title>
-        <Data>{ride.price}</Data>
+        <Data>￦ {ride.price}</Data>
         <Title>Distance</Title>
         <Data>{ride.distance}</Data>
         <Title>Duration</Title>

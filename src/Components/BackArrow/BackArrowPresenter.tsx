@@ -7,7 +7,7 @@ const Container = styled.div`
 `;
 
 interface IProps {
-  backTo: string;
+  backTo: any;
   className?: string;
 }
 

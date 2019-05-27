@@ -320,7 +320,7 @@ class HomeContainer extends React.Component<IProps, IState> {
     }
     const renderOptions: google.maps.DirectionsRendererOptions = {
       polylineOptions: {
-        strokeColor: "#000"
+        strokeColor: "#800000"
       },
       suppressMarkers: true
     };
@@ -361,18 +361,33 @@ class HomeContainer extends React.Component<IProps, IState> {
   };
 
   public setPrice = () => {
-    const { distance } = this.state;
-    const straightDistance = this.getStraightDistance();
+    // set price by straight distance calculated by lat, lng
 
-    if (distance) {
+    const { distance } = this.state;
+    const straightDistance: number = this.getStraightDistance();
+    const defaultPriceInsideSchool: number = 1300;
+    const defaultPriceOutsideSchool: number = 2000;
+
+    if (straightDistance) {
       console.log(distance);
       console.log(straightDistance);
-      if (straightDistance < 1) {
-        console.log(1500 + straightDistance * 100);
+
+      // within 2.5km ( inside of the school )
+      // 0.28 won per meter
+      if (straightDistance < 2.5) {
+        this.setState({
+          price: (
+            defaultPriceInsideSchool +
+            straightDistance * 1000 * 0.28
+          ).toFixed(0)
+        });
+      } else {
+        // over 2.5km ( outside of the school )
+        // 50 won per kilometer
+        this.setState({
+          price: (defaultPriceOutsideSchool + straightDistance * 50).toFixed(0)
+        });
       }
-      this.setState({
-        price: Number(parseFloat(distance.replace(",", "")) * 3).toFixed(2)
-      });
     }
   };
 

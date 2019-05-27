@@ -114,7 +114,7 @@ const HomePresenter: React.SFC<IProps> = ({
           <RequestButton
             onClick={requestRideFn}
             disabled={toAddress === ""}
-            value={`Request Dely ($${price})`}
+            value={`Request Dely (￦${price})`}
           />
         )}
         {ride && ride.status === "REQUESTING" && (

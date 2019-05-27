@@ -15,45 +15,35 @@ const SLink = styled(Link)`
 `;
 
 interface IProps {
-  data?: getPlaces;
+  data?: getPlaces | any;
   loading: boolean;
 }
 
-const PlacesPresenter: React.SFC<IProps> = ({ data, loading }) => {
-  const GetMyPlaces = data;
-  if (
-    GetMyPlaces &&
-    GetMyPlaces.GetMyPlaces &&
-    GetMyPlaces.GetMyPlaces.ok &&
-    GetMyPlaces.GetMyPlaces.places
-  ) {
-    const places = GetMyPlaces.GetMyPlaces.places;
-    return (
-      <React.Fragment>
-        <Helmet>
-          <title>Places | dely</title>
-        </Helmet>
-        <Header title={"Places"} backTo={"/"} />
-        <Container>
-          {!loading && places && places.length === 0 && "You have no places"}
-          {!loading &&
-            places &&
-            places.map(place => (
-              <Place
-                key={place!.id}
-                id={place!.id}
-                fav={place!.isFav}
-                name={place!.name}
-                address={place!.address}
-              />
-            ))}
-          <SLink to={"/add-place"}>Add some places!</SLink>
-        </Container>
-      </React.Fragment>
-    );
-  } else {
-    return <div>Cannot load</div>;
-  }
-};
+const PlacesPresenter: React.SFC<IProps> = ({
+  data: { GetMyPlaces: { places = null } } = {},
+  loading
+}) => (
+  <React.Fragment>
+    <Helmet>
+      <title>Places | dely</title>
+    </Helmet>
+    <Header title={"Places"} backTo={"/"} />
+    <Container>
+      {!loading && places && places.length === 0 && "You have no places"}
+      {!loading &&
+        places &&
+        places.map(place => (
+          <Place
+            key={place!.id}
+            id={place!.id}
+            fav={place!.isFav}
+            name={place!.name}
+            address={place!.address}
+          />
+        ))}
+      <SLink to={"/add-place"}>Add some places!</SLink>
+    </Container>
+  </React.Fragment>
+);
 
 export default PlacesPresenter;

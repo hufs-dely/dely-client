@@ -69,7 +69,7 @@ const RidePopUp: React.SFC<IProps> = ({
     <Title>Drop Off Address</Title>
     <Data>{dropOffAddress}</Data>
     <Title>Price</Title>
-    <Data>$ {price}</Data>
+    <Data>￦ {price}</Data>
     <Title>Distance</Title>
     <Data>{distance}</Data>
     <Title>Customer:</Title>

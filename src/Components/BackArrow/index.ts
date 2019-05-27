@@ -1,2 +1,2 @@
-import BackArrow from "./BackArrow";
-export default BackArrow;
+import BackArrowPresenter from "./BackArrowPresenter";
+export default BackArrowPresenter;

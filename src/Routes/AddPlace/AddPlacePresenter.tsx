@@ -43,7 +43,7 @@ const AddPlacePresenter: React.SFC<IProps> = ({
     <Helmet>
       <title>Add Place | dely</title>
     </Helmet>
-    <Header title={"Add Place"} backTo={"/"} />
+    <Header title={"Add Place"} backTo={"/places"} />
     <Container>
       <Form submitFn={onSubmit}>
         <ExtendedInput
