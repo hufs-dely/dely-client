@@ -74,7 +74,7 @@ const PhoneLoginPresenter: React.SFC<IProps> = ({
     <Helmet>
       <title>Phone Login | dely</title>
     </Helmet>
-    <BackArrowExtended backTo={"/"} />
+    <BackArrowExtended backTo={"../"} />
     <Title>Enter your mobile number</Title>
     <CountrySelect
       value={countryCode}

@@ -43,7 +43,7 @@ const EditAccountPresenter: React.SFC<IProps> = ({
     <Helmet>
       <title>Edit Account | dely</title>
     </Helmet>
-    <Header title={"Edit Account"} backTo={"/"} />
+    <Header title={"Edit Account"} backTo={"../"} />
     <ExtendedForm submitFn={onSubmit}>
       <PhotoInput
         onChange={onInputChange}

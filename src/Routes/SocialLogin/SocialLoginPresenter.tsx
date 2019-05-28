@@ -41,7 +41,7 @@ const SocialLoginPresenter: React.SFC<IProps> = ({ loginCallback }) => (
       <title>Social Login | dely</title>
     </Helmet>
     <Title>Choose an account</Title>
-    <BackArrowExtended backTo={"/"} />
+    <BackArrowExtended backTo={"../"} />
     <FacebookLogin
       appId="321056185249337"
       autoLoad={false}

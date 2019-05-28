@@ -27,7 +27,7 @@ const PlacesPresenter: React.SFC<IProps> = ({
     <Helmet>
       <title>Places | dely</title>
     </Helmet>
-    <Header title={"Places"} backTo={"/"} />
+    <Header title={"Places"} backTo={"../"} />
     <Container>
       {!loading && places && places.length === 0 && "You have no places"}
       {!loading &&

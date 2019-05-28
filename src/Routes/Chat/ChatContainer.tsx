@@ -100,7 +100,6 @@ class ChatContainer extends React.Component<IProps, IState> {
                         messageText={message}
                         onInputChange={this.onInputChange}
                         onSubmit={this.onSubmit}
-                        goBack={this.goBack}
                       />
                     );
                   }}
@@ -111,10 +110,6 @@ class ChatContainer extends React.Component<IProps, IState> {
         )}
       </ProfileQuery>
     );
-  }
-
-  public goBack() {
-    window.history.back();
   }
 
   public onInputChange: React.ChangeEventHandler<HTMLInputElement> = event => {

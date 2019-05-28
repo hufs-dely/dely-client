@@ -71,7 +71,7 @@ const SettingsPresenter: React.SFC<IProps> = ({
         <Helmet>
           <title>Settings | dely</title>
         </Helmet>
-        <Header title={"Account Settings"} backTo={"/"} />
+        <Header title={"Account Settings"} backTo={"../"} />
         <Container>
           <GridLink to={"/edit-account"}>
             {!userDataLoading &&

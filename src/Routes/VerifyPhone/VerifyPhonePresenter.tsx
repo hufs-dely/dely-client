@@ -34,7 +34,7 @@ const VerifyPhonePresenter: React.SFC<IProps> = ({
     <Helmet>
       <title>Verify Phone | dely</title>
     </Helmet>
-    <Header backTo={"/phone-login"} title={"Verify Phone Number"} />
+    <Header backTo={"../"} title={"Verify Phone Number"} />
     <ExtendedForm submitFn={onSubmit}>
       <ExtendedInput
         value={verificationKey}

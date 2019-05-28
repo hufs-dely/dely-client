@@ -28,7 +28,6 @@ interface IProps {
   messageText: string;
   onSubmit: () => void;
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  goBack: any;
 }
 
 const ChatPresenter: React.SFC<IProps> = ({
@@ -37,11 +36,10 @@ const ChatPresenter: React.SFC<IProps> = ({
   userData: { GetMyProfile: { user = null } = {} } = {},
   messageText,
   onInputChange,
-  onSubmit,
-  goBack
+  onSubmit
 }) => (
   <Container>
-    <Header title={"Chat"} backTo={goBack} />
+    <Header title={"Chat"} backTo={"../"} />
     {!loading && chat && user && (
       <React.Fragment>
         <Chat>
