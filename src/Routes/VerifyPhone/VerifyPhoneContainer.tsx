@@ -75,6 +75,17 @@ class VerifyPhoneContainer extends React.Component<IProps, IState> {
       [name]: value
     } as any);
   };
+
+  // public mutation: MutationFn;
+
+  // public loginCallback = response => {
+  //   const { accessToken } = response;
+  //   if (accessToken) {
+  //     toast.success(`Welcome ${accessToken}!`);
+  //   } else {
+  //     toast.error("Could not log you in");
+  //   }
+  // };
 }
 
 export default VerifyPhoneContainer;

@@ -28,7 +28,9 @@ class SocialLoginContainer extends React.Component<IProps, IState> {
     firstName: "",
     lastName: ""
   };
+
   public facebookMutation: MutationFn;
+
   public render() {
     return (
       <Mutation mutation={LOG_USER_IN}>
