@@ -85,6 +85,15 @@ const RidePresenter: React.SFC<IProps> = ({
         <Title>Status</Title>
         <Data>{ride.status}</Data>
         <Buttons>
+          <ExtendedButton
+            // Need to be fixed
+            // Cancel the subscription
+            // And cancel has to make ride 'REQUESTING' again
+            // Need to be fixed by considering each stage
+            value={"Cancle"}
+            onClick={() => (window.location.href = "http://localhost:3000/")}
+          />
+
           {ride.driver &&
             ride.driver.id === user.id &&
             ride.status === "ACCEPTED" && (

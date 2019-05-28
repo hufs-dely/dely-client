@@ -47,8 +47,8 @@ const SocialLoginPresenter: React.SFC<IProps> = ({ loginCallback }) => (
       autoLoad={false}
       fields="name,first_name,last_name,email"
       callback={loginCallback}
-      render={renderoProps => (
-        <Link onClick={renderoProps.onClick}>
+      render={renderProps => (
+        <Link onClick={renderProps.onClick}>
           <Icon>
             <svg
               xmlns="http://www.w3.org/2000/svg"
